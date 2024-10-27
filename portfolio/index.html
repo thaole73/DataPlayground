@@ -1,0 +1,14 @@
+---
+layout: page
+title: "Portfolio"
+permalink: /portfolio/
+author_profile: true
+background: '/img/bg-post.jpg'
+---
+
+{% include base_path %}
+
+{% assign sorted_posts = site.portfolio | sort: 'date' | reverse %}
+{% for post in sorted_posts %}
+  {% include archive-single.html post=post %}
+{% endfor %}
