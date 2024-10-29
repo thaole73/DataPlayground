@@ -2,7 +2,7 @@ title:              Welcome to My Data Playground
 email:              thaole@gmail.com
 description:        A Blog About Data analytics | RPA | Machine Learning
 author:             Thao Le
-baseurl:            "/startbootstrap-clean-blog-jekyll"
+baseurl:            "/DataPlayground"
 url:                "https://thaole73.github.io"
 
 # Social Profiles
@@ -27,7 +27,7 @@ plugins:
 collections:
   portfolio:
     output: true
-
+theme: jekyll-theme-clean-blog
 # pagination:
 #   enabled: true
 #   collections:
