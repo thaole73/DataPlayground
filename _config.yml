@@ -7,7 +7,7 @@ url:                "https://thaole73.github.io"
 
 # Social Profiles
 twitter_username:   
-github_username:    thaole73
+github_username:   thaole73
 # facebook_username:  
 instagram_username:  
 linkedin_username: thaole
@@ -23,7 +23,7 @@ plugins:
   - jekyll-feed
   - jekyll-paginate
   - jekyll-sitemap ## Uncomment this line to silently generate a sitemaps.org compliant sitemap for your Jekyll site
-#  - jekyll-paginate-v2
+  - jekyll-paginate-v2
 collections:
   portfolio:
     output: true
