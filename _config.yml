@@ -27,7 +27,8 @@ plugins:
 collections:
   portfolio:
     output: true
-theme: jekyll-theme-clean-blog
+
+#theme: jekyll-theme-clean-blog
 # pagination:
 #   enabled: true
 #   collections:
