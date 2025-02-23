@@ -10,7 +10,7 @@ twitter_username:
 github_username:   thaole73
 # facebook_username:  
 instagram_username:  
-linkedin_username: thaole
+linkedin_username: 
 
 # Add your google-analytics ID here to activate google analytics
 google_analytics:   UA-XXXXXXXXX-X # out your google-analytics code
@@ -23,10 +23,19 @@ plugins:
   - jekyll-feed
   - jekyll-paginate
   - jekyll-sitemap ## Uncomment this line to silently generate a sitemaps.org compliant sitemap for your Jekyll site
-  - jekyll-paginate-v2
+  # - jekyll-paginate-v2
 collections:
   portfolio:
     output: true
+
+defaults:
+   - scope:
+       path: ""
+       type: "posts"
+     values:
+       layout: "default"
+       category: "Data Analytics"
+
 
 #theme: jekyll-theme-clean-blog
 # pagination:

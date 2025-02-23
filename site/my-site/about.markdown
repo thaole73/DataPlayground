@@ -22,7 +22,7 @@ background: '/img/bg-about.jpg'
 
 <p>
 <div style="text-align: justify;">
-🌟 I'm currently working on enhancing business processes through RPA and exploring applications of machine learning.
+🌟 I'm currently working on enhancing business processes through RPA and exploring applications of AI.
 </div>
 <p>
 
@@ -36,7 +36,7 @@ background: '/img/bg-about.jpg'
 🛠️ My toolkit: Power Automate, UiPath, PowerBI, Python, R, SQL, Office Scripts.
 
 <p>
-🚀 Follow me for simple, and helpful tips on data analytics and RPA. 📊🤖
+🚀 Follow me for simple, and helpful tips on RPA and Data Analytics. 📊🤖
     <p></p>
 <!-- <p>
 📫 Get in Touch: Email me at 📧dieuthao226@gmail.com or follow me 
