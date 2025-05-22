@@ -16,15 +16,15 @@ background: '/img/bg-about.jpg'
 
 <p>    
 <div style="text-align: justify;">
-💡 I love tackling complex business problems by blending RPA (Robotic Process Automation) with big data analytics. I'm passionate about uncovering hidden patterns in data and turning raw numbers into meaningful story with actionable insights.
+💡 I love tackling complex business problems by blending RPA (Robotic Process Automation) with big data analytics, uncovering hidden patterns in data and turning raw numbers into meaningful story.
 </div>
 <p>
 
-<p>
+<!-- <p>
 <div style="text-align: justify;">
 🌟 I'm currently working on enhancing business processes through RPA and exploring applications of AI.
 </div>
-<p>
+<p> -->
 
 <!-- <p>
     <div style="text-align: justify;">    
@@ -32,10 +32,10 @@ background: '/img/bg-about.jpg'
     </div>
 <p> -->
 
-<p>
+<!-- <p>
 🛠️ My toolkit: Power Automate, UiPath, PowerBI, Python, R, SQL, Office Scripts.
 
-<p>
+<p> -->
 🚀 Follow me for simple, and helpful tips on RPA and Data Analytics. 📊🤖
     <p></p>
 <!-- <p>
