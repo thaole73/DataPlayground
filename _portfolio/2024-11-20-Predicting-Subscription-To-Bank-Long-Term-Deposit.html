@@ -1,0 +1,90 @@
+---
+layout: post
+title: "Predicting Subscription to Bank Long-Term Deposits"
+subtitle: "Modelling direct marketing success for long-term deposits using Binomial Logistic Regression"
+date: 2024-11-20 23:45:13 -0400
+category: "Data Analytics"
+tags: ["Data Analytics", "Python", "Data Visualization"]
+background: '/img/portfolio/BankDeposit.jpg'
+excerpt_separator: <!--more-->
+---
+<p style="text-align: justify; line-height: 1.5;">Atlantic Savings Bank faces the challenge of optimizing its costly and resource-intensive direct marketing campaigns for long-term deposits. Current strategies, often involving multiple phone contacts, yield insufficient conversions, necessitating a more efficient resource allocation to boost campaign success. This challenge is amplified by a competitive capital market where younger generations, facing stagnant wages and high housing costs, increasingly favor higher-risk assets over traditional, lower-interest savings. To counteract this, the bank must first understand client motivations for deposits, then implement targeted campaigns potentially featuring competitive rates and additional services like insurance. The project&apos;s primary objective is to maximize subscription rates from direct marketing while simultaneously reducing costs and refining targeting strategies through a predictive model.&nbsp;</p>
+<!--more-->
+<h2 style="text-align: justify; line-height: 1.5;"> Research Methodology </h2>
+
+<p style="text-align: justify; line-height: 1.5;">Our dataset analysis, using &apos;Subscribe&apos; as the binary response variable, reveals a significant class imbalance, with 18,082 out of 20,420 clients not subscribing. Data exploration highlights influential categorical variables like &apos;Job&apos;, &apos;Marital&apos; status, and &apos;Education&apos;. For instance, &apos;single&apos; individuals, and those with &apos;university.degree&apos; or &apos;illiterate&apos; education, show a higher proportional likelihood of subscribing. Similarly, &apos;student&apos; and &apos;retired&apos; segments, despite their smaller absolute numbers, exhibit higher &apos;Yes&apos; subscription percentages. Beyond demographics, crucial differentiators emerge from socio-economic indicators. Subscribers tend to engage during periods of lower emp.var.rate (stable employment), lower cons.price.idx (reduced inflation), and higher cons.conf.idx (optimistic economic outlook). A particularly strong correlation exists with euribor3m; subscriptions are associated with substantially lower interest rates. Additionally, &apos;yes&apos; subscribers correlate with periods of slightly lower nr.employed. These insights underscore the profound impact of a favorable macroeconomic climate, especially lower interest rates and higher consumer confidence, on successful marketing campaigns.</p>
+
+<style>
+/*Add plots*/
+  /* Increase size and add a background with some opacity */
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 60px;
+    height: 60px;
+    background-size: 35px 35px; /* Adjust the icon size inside the control */
+    background-color: rgba(0, 0, 0, 0.6); /* Slightly darker for better visibility */
+    border-radius: 50%;
+    filter: invert(100%); /* Makes the arrow white for better contrast */
+  }
+
+  /* Optionally, add a hover effect */
+  .carousel-control-prev:hover .carousel-control-prev-icon,
+  .carousel-control-next:hover .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  /* Ensure the images are well-fitted inside the carousel */
+  .carousel-item img {
+    max-height: 500px; /* Adjust as needed */
+    object-fit: cover;
+  }
+</style>
+
+<div id="imageCarousel" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <a href="{{ site.baseurl }}/img/portfolio/Deposit_barplot.jpg" data-lightbox="carousel-gallery" data-title="Figure1">
+        <img class="d-block w-100" src="{{ site.baseurl }}/img/portfolio/Deposit_barplot.jpg" alt="Image 1">
+      </a>
+    </div>
+    <div class="carousel-item">
+      <a href="{{ site.baseurl }}/img/portfolio/Deposit_boxplot.jpg" data-lightbox="carousel-gallery" data-title="Figure2">
+        <img class="d-block w-100" src="{{ site.baseurl }}/img/portfolio/Deposit_boxplot.jpg" alt="Image 2">
+      </a>
+    </div>
+    <!-- Add more carousel items as needed -->
+  </div>
+
+  <!-- Carousel Controls -->
+  <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+<p style="text-align: justify; line-height: 1.5;">To enhance subscription rates through direct marketing, while simultaneously cutting costs and refining our targeting, we will construct two distinct models. Model M1 (Baseline Model) will analyse the correlation between client subscription behaviour and previous campaign outcomes, alongside key socio-economic indicators such as the employment variation rate, consumer price index, consumer confidence index, Euribor 3-month rate, and the number of employees. Model M2 (Alternative Model) will then explore the significance of contact month, job type, client age, and education level in influencing subscription decisions.</p>
+
+<a href="{{ site.baseurl }}/img/portfolio/Deposit_modelsummary.jpg" data-lightbox="portfolio" data-title="Model-Summary">
+  <img class="img-fluid w-75" src="{{ site.baseurl }}/img/portfolio/Deposit_modelsummary.jpg" alt="Xmas Sales" style="display: block; margin: 0 auto; cursor: zoom-in;">
+</a>
+
+<p style="text-align: justify; line-height: 1.5;"> Analyzing the performance of our two models, M1 and M2, we can see that model M2 consistently outperforms M1 across multiple key metrics. Both models are statistically significant, evidenced by their p-values &lt; 0.05, confirming their ability to explain subscription behaviour beyond random chance. However, M2&rsquo;s higher log-likelihood of -4601.1 compared to M1&rsquo;s -4751.8 indicates that M2 provides a better fit to the data. This is further corroborated by M2&rsquo;s higher Pseudo R&sup2; (0.2083 vs. 0.1824). Furthermore, M2&rsquo;s lower AIC (9270.1972) and BIC (9532.0355) values, relative to M1, signal that it achieves a better balance between model fit and model simplicity. While both models demonstrate very high hit rates (around 0.89), this metric should be interpreted cautiously given the significant class imbalance in the &lsquo;subscribe&rsquo; variable, necessitating a closer examination of precision, recall, and F1-score for the minority &lsquo;Yes&rsquo; class to fully assess their predictive capabilities for actual subscriptions. The ROC (Receiver Operating Characteristic) curve graph below compares the performance of two models, M1 and M2, against a random classifier in predicting client subscriptions. The dashed blue line represents a random classifier, which performs no better than chance. Its Area Under the Curve (AUC) is 0.50, meaning it has a 50% chance of distinguishing between positive and negative classes, serving as a baseline for comparison. Overall, both M1 and M2 are significantly better than a random guess. However, model M2 stands out as the superior performer, exhibiting a greater capacity to accurately differentiate between clients who will subscribe and those who will not. The higher AUC of M2 suggests it is more effective in ranking potential subscribers from non-subscribers.</span></p>
+
+<a href="{{ site.baseurl }}/img/portfolio/Deposit_ROC.jpg" data-lightbox="portfolio" data-title="ROC Curve">
+  <img class="img-fluid w-75" src="{{ site.baseurl }}/img/portfolio/Deposit_ROC.jpg" alt="Xmas Sales" style="display: block; margin: 0 auto; cursor: zoom-in;">
+</a>
+
+<h2 style="text-align: justify; line-height: 1.5;"> Conclusions And Recomendations </h2>
+
+<p style="text-align: justify; line-height: 1.5;"> Our logistic regression model predicts the probability of a customer subscribing to a long-term deposit based on various characteristics, essentially allowing us to identify potential customers from their historical data. The model quantifies the impact of each characteristic on this probability through its estimated coefficient (and the derived exp(coef)-1 value, representing the percentage change in odds).</p>
+<p style="text-align: justify; line-height: 1.5;">This insight empowers the bank to tailor future campaigns. For instance, being contacted in March or July significantly boosts subscription odds (178% and 35% increases, respectively), making these prime months for outreach. Furthermore, a successful outcome from a previous campaign (poutcome_success) is an extremely powerful predictor, increasing the odds of subscription by over 241%, while clients with illiterate education also show a remarkably higher propensity (over 186% increase in odds).</p>
+<p style="text-align: justify; line-height: 1.5;"> Conversely, some factors significantly decrease subscription odds. A higher emp.var.rate reduces odds by nearly 50%, and being a blue-collar worker decreases odds by 20%. Higher employement variation rate can be understood as an indicator of economic uncertainty or instability in the job market. During periods of fluctuating employment, individuals may become more cautious with their finances, prioritizing liquidity and avoiding long-term financial commitments due to concerns about their job security or overall economic outlook. Contact during May, November, October, September, and June also leads to substantial decreases in subscription probability (ranging from 21% to nearly 50% reduction in odds). This might be linked to seasonal patterns in consumer behavior and banking activity. For example, May might be associated with spring spending (e.g., home improvements), and the latter months (September, October, November) often precede the holiday season, when consumer spending shifts towards gifts and other seasonal expenses, potentially diverting attention and funds away from long-term financial products like deposits. Variables like age and cons.conf.idx do not show a statistically significant relationship with subscription in this model.</p>
+
+<p>Link to my detailed report:</p>
+<a href="/assets/pdf/Predicting Subscription to Bank Long-Term Deposits.pdf" download="Predicting Subscription to Bank Long-Term Deposits.pdf">Predicting Subscription to Bank Long-Term Deposits.pdf</a>
+
+<p style="text-align: justify;"><br></p>
