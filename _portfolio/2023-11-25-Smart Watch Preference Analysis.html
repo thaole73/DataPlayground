@@ -1,0 +1,95 @@
+---
+layout: post
+title: "Smart Watch Preference Analysis"
+subtitle: "A Choice-Based Conjoint Analysis Approach to Optimizing Product Strategy"
+date: 2023-11-25 23:45:13 -0400
+category: "Data Analytics"
+tags: ["Data Analytics", "Python", "Data Visualization"]
+background: '/img/portfolio/Smartwatch-CB.png'
+excerpt_separator: <!--more-->
+---
+
+<p style="text-align: justify; line-height: 1.5;">In today&apos;s fiercely competitive smart watch market, manufacturers like WearTech Innovations face significant challenges in pinpointing consumer preferences. A lack of precise understanding can lead to inefficient product development, suboptimal pricing, and generic marketing campaigns, ultimately resulting in wasted resources and missed sales opportunities. To address these critical issues, WearTech conducted a comprehensive Choice-Based Conjoint (CBC) analysis survey, aiming to uncover the true drivers of customer choice and inform strategic decision-making.</p>
+<!--more-->
+    <p style="text-align: justify; line-height: 1.5;">The core objective of this project was to transform the rich, raw data from this survey into actionable quantitative insights. Our goal was to gain a deep understanding of consumer preferences for smart watches, specifically by quantifying the importance of various attributes, estimating utility for each attribute level, and ultimately providing data-driven recommendations for optimal product design, strategic pricing, and targeted marketing campaigns.</p>
+    
+<h2 style="text-align: justify; line-height: 1.5;"> Research Methodology </h2>
+    
+    <p style="text-align: justify; line-height: 1.5;">Our methodology involved a multi-step approach. The survey itself collected customer choices across various hypothetical smart watch alternatives, each defined by <code>Color</code> (Black, Lilac, White), <code>Brand</code> (Apple, Samsung, Fitbit), <code>Price</code> (NOK 990, 2390, 3190, 6190), and <code>Battery life</code> (10, 18, 40, 80 hours), along with participant demographics (gender, age, region). Data preparation was crucial, involving the merging of product specifications with respondent choices and transforming the dataset into a long format suitable for modeling. We then developed four distinct multinomial logit models, exploring different treatments of predictor variables (e.g., nominal vs. linear effects for price and battery life). Model validation involved splitting data into training and testing sets, with performance assessed using Hit Rate (accuracy) and AIC (Akaike Information Criterion). Subsequent Likelihood Ratio Tests were employed to compare nested models, confirming that price and battery life effects are best treated as linear, while color and brand have nominal effects.</p>
+    <p style="text-align: justify; line-height: 1.5;">The analysis revealed compelling insights into consumer preferences. Model 4 emerged as the superior performer, achieving a significantly higher Hit Rate of 0.4853 and the lowest AIC of 9379.7429, demonstrating its robust predictive capability. The most striking finding was the overwhelming importance of Price, which accounted for over 65% of a customer&apos;s decision-making process. This was followed by Color at approximately 18%, while Brand and Battery Life held considerably less influence, each contributing around 8%.</p>
+    
+<h2 style="text-align: justify; line-height: 1.5;"> Conclusions And Recomendations </h2>
+
+    <p style="text-align: justify; line-height: 1.5;">Delving into specific attribute levels, customers exhibited a strong preference for lower prices, with the 990 NOK option yielding the highest utility. For colors, Black was the most preferred, followed by White, with Lilac being the least favored. Among brands, Samsung was marginally preferred over Apple, with Fitbit slightly trailing, though the overall low importance of brand limits its impact. Finally, while less critical, longer battery life was preferred, consistent with its minor overall influence.</p>
+    
+<style>
+/*Add plots*/
+  /* Increase size and add a background with some opacity */
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 60px;
+    height: 60px;
+    background-size: 35px 35px; /* Adjust the icon size inside the control */
+    background-color: rgba(0, 0, 0, 0.6); /* Slightly darker for better visibility */
+    border-radius: 50%;
+    filter: invert(100%); /* Makes the arrow white for better contrast */
+  }
+
+  /* Optionally, add a hover effect */
+  .carousel-control-prev:hover .carousel-control-prev-icon,
+  .carousel-control-next:hover .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  /* Ensure the images are well-fitted inside the carousel */
+  .carousel-item img {
+    max-height: 500px; /* Adjust as needed */
+    object-fit: cover;
+  }
+</style>
+
+<div id="imageCarousel" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <a href="{{ site.baseurl }}/img/portfolio/Smartwatch-CB1.jpg" data-lightbox="carousel-gallery" data-title="Figure1">
+        <img class="d-block w-100" src="{{ site.baseurl }}/img/portfolio/Smartwatch-CB1.jpg" alt="Image 1">
+      </a>
+    </div>
+    <div class="carousel-item">
+      <a href="{{ site.baseurl }}/img/portfolio/Smartwatch-CB2.jpg" data-lightbox="carousel-gallery" data-title="Figure2">
+        <img class="d-block w-100" src="{{ site.baseurl }}/img/portfolio/Smartwatch-CB2.jpg" alt="Image 2">
+      </a>
+    </div>
+        <div class="carousel-item">
+      <a href="{{ site.baseurl }}/img/portfolio/Smartwatch-CB3.jpg" data-lightbox="carousel-gallery" data-title="Figure2">
+        <img class="d-block w-100" src="{{ site.baseurl }}/img/portfolio/Smartwatch-CB3.jpg" alt="Image 2">
+      </a>
+    </div>
+        <div class="carousel-item">
+      <a href="{{ site.baseurl }}/img/portfolio/Smartwatch-CB4.jpg" data-lightbox="carousel-gallery" data-title="Figure2">
+        <img class="d-block w-100" src="{{ site.baseurl }}/img/portfolio/Smartwatch-CB4.jpg" alt="Image 2">
+      </a>
+    </div>
+        <div class="carousel-item">
+      <a href="{{ site.baseurl }}/img/portfolio/Smartwatch-CB5.jpg" data-lightbox="carousel-gallery" data-title="Figure2">
+        <img class="d-block w-100" src="{{ site.baseurl }}/img/portfolio/Smartwatch-CB5.jpg" alt="Image 2">
+      </a>
+    </div>
+    <!-- Add more carousel items as needed -->
+  </div>
+
+  <!-- Carousel Controls -->
+  <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+    <p style="text-align: justify; line-height: 1.5;">Based on these findings, WearTech Innovations should adopt a price-centric strategy, prioritizing the development and aggressive marketing of competitively priced smart watches, particularly those around the 990 NOK mark. The product portfolio should emphasize Black as a primary color option, given its high preference, while carefully re-evaluating investment in less preferred colors like Lilac. Resources allocated to brand messaging and marginal battery life improvements should be strategic and proportionate to their relatively lower impact on customer choice. By aligning product offerings and marketing efforts with these core customer preferences, WearTech can significantly enhance market share, optimize resource allocation, and strengthen its competitive position in the smart watch industry.</p>
+
+<p>Link to my detailed report:</p>
+<a href="pdf/Smart-Watch-Preference-Analysis-(Choice-Based-Conjoint-Analysis).pdf" target="_blank">Smart-Watch-Preference-Analysis-(Choice-Based-Conjoint-Analysis).pdf</a>

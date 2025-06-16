@@ -1,0 +1,114 @@
+---
+layout: post
+title: "Mobile Games Analysis Dashboard"
+subtitle: "Leveraging Data for Strategic Mobile Game Growth"
+date: 2024-08-25 23:45:13 -0400
+category: "Data Analytics"
+tags: ["Data Analytics", "PowerBI", "Data Visualization"]
+background: '/img/portfolio/mobile_game/mobilegames.jpg'
+excerpt_separator: <!--more-->
+---
+<p style="text-align: justify; line-height: 1.5;">In this project, I utilized dataset of mobile game applications to build an interactive Power BI dashboard, designed to help a mobile game company track critical metrics, identify issues, optimize monetization strategies, and enhance user engagement.</p>
+<!--more-->
+<h2 style="text-align: justify; line-height: 1.5;">How I prepared data</h2>
+    <p style="text-align: justify; line-height: 1.5;">The project&apos;s initial phase centered on data preparation within Power Query Editor, ensuring the mobile game dataset&apos;s integrity and analytical readiness. This involved connecting to and profiling raw data for inconsistencies, followed by thorough cleaning&mdash;addressing missing values, standardizing formats, and removing duplicates for reliable calculations. Essential feature engineering then created new calculated columns and measures crucial for dashboard metrics. For instance, &quot;Year-over-Year Revenue Changes&quot; were calculated to track financial performance trends; &quot;Pricing Trend&quot; measures (average, maximum, minimum) were developed to analyze market pricing strategies; and a &quot;Composite Rating&quot; was created to identify game popularity by combining average user ratings with user engagement data. Robust data modeling established relationships between tables for integrated analysis and cross-filtering, while performance optimization ensured a responsive dashboard experience.</p>
+    
+    <a href="{{ site.baseurl }}/img/portfolio/mobile_game/modelling.jpg" data-lightbox="portfolio" data-title="">
+      <img class="img-fluid w-75" src="{{ site.baseurl }}/img/portfolio/mobile_game/modelling.jpg" alt="" style="display: block; margin: 0 auto; cursor: zoom-in;">
+    </a>
+
+    <h2 style="text-align: justify; line-height: 1.5;">What&apos;s in the Dashboard</h2>
+    <p style="text-align: justify; line-height: 1.5;">The Power BI dashboard is divided into two main pages: &quot;Overview&quot; and &quot;Game Insights&quot;.&nbsp;</p>
+    <p style="text-align: justify; line-height: 1.5;">The &quot;Overview&quot; page gives a quick look at how mobile games are performing. It shows key numbers like how much revenue games are making, how many games are out there, and their overall ratings year by year. You can see that &quot;Auxbrain, Inc.&quot; is the top-rated game maker based on their games&apos; overall quality scores. This page also highlights the top 5 most popular games and the game developers earning the most revenue. To understand user activity, there&apos;s a heatmap showing daily user engagement and a chart that tracks how the number of games and user engagement have changed over time. Lastly, you&apos;ll find charts showing the most popular game types like Strategy and Entertainment, and the most common languages, such as English.</p>
+    
+    <a href="{{ site.baseurl }}/img/portfolio/mobile_game/overview.jpg" data-lightbox="portfolio" data-title="">
+      <img class="img-fluid w-75" src="{{ site.baseurl }}/img/portfolio/mobile_game/overview.jpg" alt="" style="display: block; margin: 0 auto; cursor: zoom-in;">
+    </a>
+
+    <p style="text-align: justify; line-height: 1.5;">The &quot;Game Insights&quot; page dives deeper into the mobile game market and game features. It provides overall market numbers, like the total number of game developers, the average price of games, and total user engagement. This section includes a chart showing that most games are either free or very low-priced. There&apos;s also a visual tool that suggests game prices based on age rating and genre, and a chart that shows bigger games generally cost more. A table breaks down game market statistics year by year, including user engagement, number of games, developers, average game size, average price, and average user rating. You can also see how games are spread across different age ratings and their average sizes, along with a breakdown of how users rate games (from Poor to Excellent).&nbsp;</p>
+    
+        <a href="{{ site.baseurl }}/img/portfolio/mobile_game/game insight.jpg" data-lightbox="portfolio" data-title="">
+      <img class="img-fluid w-75" src="{{ site.baseurl }}/img/portfolio/mobile_game/game insight.jpg" alt="" style="display: block; margin: 0 auto; cursor: zoom-in;">
+    </a>
+
+    <p style="text-align: justify; line-height: 1.5;">Both the &quot;Overview&quot; and &quot;Game Insights&quot; pages have interactive filters for Age Rating, Genre, and Year, making it simple to explore specific parts of the data.</p>
+    <h2 style="text-align: justify; line-height: 1.5;">Key Insights from the Dashboard</h2>
+    <p style="text-align: justify; line-height: 1.5;">The dashboard revealed several critical insights for the mobile game business:</p>
+    <p style="text-align: justify; line-height: 1.5;">- The top 5 most popular games from 2008 to 2019 are all free-to-play, with Clash of Clans (2012) and Clash Royale (2016) leading the list, both targeting players aged 9+.</p>
+    <p style="text-align: justify; line-height: 1.5;">- Game revenue fluctuated between 2008 and 2019, peaking in 2009 and hitting a low in 2019, despite the number of games in 2019 being more than double those in 2009. This could be due to the higher presence of paid games with strong user engagement in 2009. Among developers, Ninja Kiwi generated the highest revenue, followed by Donut Games.</p>
+    <p style="text-align: justify; line-height: 1.5;">- The number of game launches saw significant growth from 2008 to 2016 before declining to nearly half of its peak by 2019, although average game ratings improved during this period. Auxbrain emerged as the developer with the highest average composite game rating which is based on average user rating and average user rating count. Additionally, average game prices decreased from 2008 to 2019, with lower-priced games showing higher user engagement. Clash Royale, PUBG Mobile, and Pok&eacute;mon Go had the highest user rating counts from 2016 to 2019.</p>
+    <p style="text-align: justify; line-height: 1.5;">- Strategy games and English language options are the most popular in their respective categories. New developers should consider focusing on these to attract a larger audience.</p>
+    <p style="text-align: justify; line-height: 1.5;">- The majority of games in the app store are free or priced below $4.99, categories that seem to draw the most players. It is recommended that new developers adopt a similar pricing strategy, potentially offering free games monetized through advertising or setting a low price point.</p>
+    <p style="text-align: justify; line-height: 1.5;">- There is a positive correlation between price and game size, with larger games typically having higher unit prices. However, free and low-priced games often receive higher user ratings and user engagement. Strategy and entertainment genres tend to feature larger games.</p>
+    <p style="text-align: justify; line-height: 1.5;">- While games rated for ages 4+ are the most prevalent in the market, those rated for ages 9+ see greater user engagement. Over 50% of games receive excellent user ratings (above 4.5), with strategy and entertainment genres leading in this area.</p>
+    <h2 style="text-align: justify; line-height: 1.5;">Strategic Recommendations</h2>
+    <p style="text-align: justify; line-height: 1.5;">Based on these key insights, I recommend the following strategic actions for the mobile game company:</p>
+    <p style="text-align: justify; line-height: 1.5;">- Optimize Monetization Strategy: Prioritize a free-to-play model or low price point (below $4.99), as these categories demonstrate the highest user engagement. Explore in-app purchases and advertising as primary revenue streams for free games.</p>
+    <p style="text-align: justify; line-height: 1.5;">- Focus on High-Demand Genres and Languages: New game development should strongly consider the Strategy and English language categories to maximize audience reach and engagement potential.</p>
+    <p style="text-align: justify; line-height: 1.5;">- Targeted Age Ratings: While games for ages 4+ are abundant, concentrate development efforts on titles for ages 9+, as this segment shows greater user engagement.</p>
+    <p style="text-align: justify; line-height: 1.5;">- Balance Size and Price: Understand that while larger games can command higher prices, high user engagement and ratings are more common among free or low-priced games. This suggests a need to deliver significant value in larger, higher-priced games to justify their cost.</p>
+    <p style="text-align: justify; line-height: 1.5;">- Proactive User Engagement &amp; Quality Monitoring: Continuously monitor user ratings and engagement trends. The high percentage of &quot;Excellent&quot; user ratings in strategy and entertainment suggests that maintaining high quality in these genres can lead to strong user satisfaction. Deviations from positive user feedback could signal bugs or issues requiring immediate attention.</p>
+<!-- Add image and video here -->
+<!-- <a href="{{ site.baseurl }}/img/portfolio/XMas Sales 02.jpg" data-lightbox="portfolio" data-title="Overview of Christmas Sales">
+  <img class="img-fluid w-75" src="{{ site.baseurl }}/img/portfolio/XMas Sales 02.jpg" alt="Xmas Sales" style="display: block; margin: 0 auto; cursor: zoom-in;">
+</a>
+<span class="caption text-muted">Overview of Christmas Sales</span>   -->
+<!-- Lightbox2 CSS and JS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+
+<style>
+  /* Increase size and add a background with some opacity */
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 60px;
+    height: 60px;
+    background-size: 35px 35px; /* Adjust the icon size inside the control */
+    background-color: rgba(0, 0, 0, 0.6); /* Slightly darker for better visibility */
+    border-radius: 50%;
+    filter: invert(100%); /* Makes the arrow white for better contrast */
+  }
+
+  /* Optionally, add a hover effect */
+  .carousel-control-prev:hover .carousel-control-prev-icon,
+  .carousel-control-next:hover .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  /* Ensure the images are well-fitted inside the carousel */
+  .carousel-item img {
+    max-height: 500px; /* Adjust as needed */
+    object-fit: cover;
+  }
+</style>
+
+<div id="imageCarousel" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <a href="{{ site.baseurl }}/img/portfolio/mobile_game/overview.jpg" data-lightbox="carousel-gallery" data-title="">
+        <img class="d-block w-100" src="{{ site.baseurl }}/img/portfolio/mobile_game/overview.jpg" alt="Image 1">
+      </a>
+    </div>
+    <div class="carousel-item">
+      <a href="{{ site.baseurl }}/img/portfolio/mobile_game/game insight.jpg" data-lightbox="carousel-gallery" data-title="">
+        <img class="d-block w-100" src="{{ site.baseurl }}/img/portfolio/mobile_game/game insight.jpg" alt="Image 2">
+      </a>
+    </div>
+    <!-- Add more carousel items as needed -->
+  </div>
+
+  <!-- Carousel Controls -->
+  <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+ 
+<!-- <video width="800" height="450" controls>
+    <source src="{{ site.baseurl }}/img/portfolio/Xmas Sales.mp4" type="video/mp4">
+  </video>  -->
+

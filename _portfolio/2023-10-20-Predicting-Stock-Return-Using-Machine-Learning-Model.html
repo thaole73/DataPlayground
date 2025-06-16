@@ -1,0 +1,697 @@
+---
+layout: post
+title: "Stock Return Prediction Using Machine Learning Models"
+subtitle: ""
+date: 2024-01-20 23:45:13 -0400
+category: "Data Analytics"
+tags: ["Data Analytics", "Python", "Data Visualization"]
+background: '/img/portfolio/Stock Prediction/StockPrediction.jpg'
+excerpt_separator: <!--more-->
+---
+
+<p style="text-align: justify; line-height: 1.5;">Predicting stock returns is a complex yet important task. Past performance of individual stock can be a good predictor of future performance, fundamental factors such as earnings, cash flow, and management decisions should be considered when forecasting returns. Furthermore, quantitative methods such as portfolio optimization and risk analysis provide useful assessments to aid in the decision-making process (Avramov &amp; Chordia, 2006). In this report, we use Compustat and CRSP datasets to run time-series regression models to see if existing variables, such as individual stock returns, size factors, or other macro factors, have predictive power over future stock returns. The goal is to leverage these findings to develop machine learning models to predict future stock returns.</p><!--more-->
+ <!--more-->
+<h2 style="text-align: justify; line-height: 1.5;">I. Business Objective</h2>
+
+<p style="text-align: justify; line-height: 1.5;">In this report, we will aim to build four machine learning (ML) models including SGD based Linear Regression, Random Forest, KNN, and XGBoost for forecasting stock return based on fundamental analysis and technical analysis. We use financial indicators such as assets, liability, market cap, book value, earning per share, payable, etc. and technical factors such as historical return/price/volume as predictors. Historical price to earnings per share and book to market are also created as predictive variables. After building four ML models, we will calculate performance metrics to evaluate their predictive power.</p>
+
+<h2 style="text-align: justify; line-height: 1.5;">II.	Analytical Approach and Methodology </h2>
+
+<h3 style="text-align: justify; line-height: 1.5;">2.1 Variable Identification and Evaluation Metrics </h3>
+<p style="text-align: justify; line-height: 1.5;">For our predictive modeling, we will utilize a set of 32 variables, categorized to capture various aspects of financial performance and market dynamics. The predicting models are evaluated using three metrics: Mean Squared Error (MSE), Mean Absolute Error (MAE), and R-squared (R2).</p>
+
+<table style="width:466.5pt;border-collapse:collapse;border:none;" class="fr-table-selection-hover">
+        <tbody>
+            <tr>
+                <td style="width: 39.5498%; border: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><strong><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>&nbsp; &nbsp; &nbsp; &nbsp; Variable</span></strong></p>
+                </td>
+                <td style="width: 60.4502%; border-top: 1pt solid windowtext; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-image: initial; border-left: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'><strong>Description</strong></span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>ret1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>return in previous month</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="2" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>ret2</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>return in the past 2 months</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="3" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>marketcap1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>Market capital in the previous month&nbsp;</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="4" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>price1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>Price in the previous month</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="5" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>liability1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>Liability in the previous month</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="6" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>eps1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>Earnings per share in the previous month</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="7" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>Book_to_market1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>Book to market in the previous month</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="8" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>pe1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>Price earnings ratio in the previous month</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="9" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>volume1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>Volume trade in the previous month</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="10" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>payable1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>Payable in the previous month</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="11" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>Value_wieght1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>Value weight in the previous month</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="12" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>vol6</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>average volume of the past 6 months</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="13" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>vol12</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>average volume of the past 12 months</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="14" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>price6</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>average price of the past 6 months</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="15" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>price12</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>average price of the past 12 months</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="16" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>Del_ret1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>percentage change between&nbsp;</span><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;'>consecutive ret1 observations</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="17" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>Del_ret2</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>percentage change between&nbsp;</span><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;'>consecutive ret2 observations</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="18" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>delta_marketcap1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>percentage change between&nbsp;</span><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;'>consecutive marketcap1 observations</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="19" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>delta_price1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>percentage change between&nbsp;</span><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;'>consecutive price1 observations</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="20" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>delta_asset1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>percentage change between&nbsp;</span><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;'>consecutive asset1 observations</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="21" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>delta_liability1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>percentage change between&nbsp;</span><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;'>consecutive liability1 observations</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="22" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>delta_book_value1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>percentage change between&nbsp;</span><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;'>consecutive book_value1 observations</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="23" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>delta_eps1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>percentage change between&nbsp;</span><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;'>consecutive eps1 observations</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="24" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>delta_book_to_market1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>percentage change between&nbsp;</span><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;'>consecutive book_to_market1 observations</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="25" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>delta_pe1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>percentage change between&nbsp;</span><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;'>consecutive pe1 observations</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="26" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>delta_volume1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>percentage change between&nbsp;</span><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;'>consecutive volume1 observations</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="27" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>delta_payable1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>percentage change between&nbsp;</span><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;'>consecutive payable1 observations</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="28" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>delta_value_weight1</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>percentage change between&nbsp;</span><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;'>consecutive value_weight1 observations</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="29" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>delta_vol6</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>percentage change between&nbsp;</span><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;'>consecutive vol6 observations</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="30" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>delta_vol12</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>percentage change between&nbsp;</span><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;'>consecutive vol12 observations</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="31" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>delta_price6</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>percentage change between&nbsp;</span><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;'>consecutive price6 observations</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 39.5498%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <div style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'>
+                        <ol start="32" style="margin-bottom:0in;list-style-type: decimal;">
+                            <li style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;'><span style='line-height:150%;font-family:"Times New Roman",serif;font-size:13px;color:black;'>delta_price12</span></li>
+                        </ol>
+                    </div>
+                </td>
+                <td style="width: 60.4502%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; height: 15pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>percentage change between&nbsp;</span><span style='font-size:13px;line-height:150%;font-family:"Times New Roman",serif;'>consecutive price12 observations</span></p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+<h3 style="text-align: justify; line-height: 1.5;">2.2 Missing values and Outliers </h3>
+<p style="text-align: justify; line-height: 1.5;">The dataset retrieved from Compustat and CRSP contains many missing values. These missing values can bias the machine-learning models and reduce the prediction accuracy. In many cases, a dataset with missing values leads to invalid results. As our dataset is large with many features, we decided to drop feature columns that are populated mainly by missing values. Besides, for feature columns with sparse null values, deleting these values is a better option to avoid bias. </p>
+<p style="text-align: justify; line-height: 1.5;">Outliers are data points that differ significantly from other data points in dataset. An outlier can cause serious problems in analysis and lead to incorrect results. Therefore, it is important to detect and treat these outliers to make our Machine Learning model perform better.
+In this report, we will use Z-score to detect and remove outliers. The concept of Z-score is to indicate how far away a certain point is from the mean. If Z-score of data point is greater than 3, we can conclude that our data point is an outlier (Ansoleaga, 2021)  </p>
+
+{% highlight ruby %}
+# Function to detect outliers
+def zscore(df):
+    for col in df.columns:
+        df['Zscore'] = stats.zscore(df[col])
+        df= df[(df['Zscore'] < 3) & (df['Zscore'] > -3)]
+        df.drop('Zscore', axis=1, inplace=True)
+    return df
+{% endhighlight %}
+
+
+<h3 style="text-align: justify; line-height: 1.5;">2.3 Trend stationarizing feature </h3>
+<p style="text-align: justify; line-height: 1.5;">For time-series dataset, it is important to determine if a time-series is stationary or not. The concept of stationarity means the time series has no trend or no seasonal pattern. The distribution of a time series is the same with respect to time. The forecast of models on stationary time series tend to produce better prediction. (Chaudhari, 2021). As many features from our dataset have noticeable trends throughout the time, we stationarizes the features by calculating the percentage change between consecutive observations. </p>
+
+
+{% highlight ruby %}
+# Add new independent variables
+df['vol6'] = df['volume1'].rolling(6).mean().shift(1)
+df['vol12'] = df['volume1'].rolling(12).mean().shift(1)
+df['price6'] = df['price1'].rolling(24).mean().shift(1)
+df['price12'] = df['price1'].rolling(48).mean().shift(1)
+
+# Add new stationary variables
+df['delta_ret1'] = (df['ret1'] - df['ret1'].shift(1))*100/df['ret1'].shift(1)
+df['delta_ret2'] = (df['ret2'] - df['ret2'].shift(1))*100/df['ret2'].shift(1)
+df['delta_marketcap1'] = (df['marketcap1'] - df['marketcap1'].shift(1))*100/df['marketcap1'].shift(1)
+df['delta_price1'] = (df['price1'] - df['price1'].shift(1))*100/df['price1'].shift(1)
+df['delta_asset1'] = (df['asset1'] - df['asset1'].shift(1))*100/df['asset1'].shift(1)
+df['delta_liability1'] = (df['liability1'] - df['liability1'].shift(1))*100/df['liability1'].shift(1)
+df['delta_book_value1'] = (df['book_value1'] - df['book_value1'].shift(1))*100/df['book_value1'].shift(1)
+df['delta_EPS1'] = (df['EPS1'] - df['EPS1'].shift(1))*100/df['EPS1'].shift(1)
+df['delta_book_to_market1'] = (df['book_to_market1'] - df['book_to_market1'].shift(1))*100/df['book_to_market1'].shift(1)
+df['delta_PE1'] = (df['PE1'] - df['PE1'].shift(1))*100/df['PE1'].shift(1)
+df['delta_volume1'] = (df['volume1'] - df['volume1'].shift(1))*100/df['volume1'].shift(1)
+df['delta_payable1'] = (df['payable1'] - df['payable1'].shift(1))*100/df['payable1'].shift(1)
+df['delta_value_weight1'] = (df['value_weight1'] - df['value_weight1'].shift(1))*100/df['value_weight1'].shift(1)
+df['delta_vol6'] = (df['vol6'] - df['vol6'].shift(1))*100/df['vol6'].shift(1)
+df['delta_vol12'] = (df['vol12'] - df['vol12'].shift(1))*100/df['vol12'].shift(1)
+df['delta_price6'] = (df['price6'] - df['price6'].shift(1))*100/df['price6'].shift(1)
+df['delta_price12'] = (df['price12'] - df['price12'].shift(1))*100/df['price12'].shift(1)
+{% endhighlight %}
+
+<h3 style="text-align: justify; line-height: 1.5;">2.4 Data Splitting and Standardization </h3>
+<p style="text-align: justify; line-height: 1.5;"> As our data set is a time series, we split it into two set with respect to time. The training set is from 31/01/2000 to 31/12/2015 and the test set is from 01/01/2016 to 31/12/2021. After splitting, we will have 560,074 training samples and 156,614 testing samples. </p>
+
+<p style="text-align: justify; line-height: 1.5;"> As many Machine Learning Models are sensitive with data that have independent variables with largely different scales, it is common practice to standardize these features to make our models perform better. In this project, we standardized all independent features by removing the mean and scaling to unit variance. </p>
+
+
+{% highlight ruby %}
+# Split data into train and test set
+data_train = data[data['date'] < '2016-01-01']
+X_train = data_train[Predictor].values
+y_train = data_train[target_var].values
+
+data_test = data[data['date'] >= '2016-01-01']
+X_test = data_test[Predictor].values
+y_test = data_test[target_var].values
+
+# Standardize the data
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+{% endhighlight %}
+
+<h2 style="text-align: justify; line-height: 1.5;">III.Building Models and Making Predictions</h2>
+
+<h3 style="text-align: justify; line-height: 1.5;">3.1 Na&iuml;ve Model</h3>
+<p style="text-align: justify; line-height: 1.5;">Before building Machine Learning models, we first perform prediction based in the na&iuml;ve approach which looks at the previous result of the observation and predicts the same thing will happen again. Then we calculate the metrics for this approach and compare our models&rsquo; performance to see if our model can beat the na&iuml;ve model.</p>
+{% highlight ruby %} 
+  # Naive model
+data['ret_pred_naive'] = data['ret'].shift(1)
+
+data.dropna(inplace=True)
+
+print("R2: {}".format(r2_score(data['ret_pred_naive'], data['ret'])))
+print("MAE: {}".format(mean_absolute_error(data['ret_pred_naive'], data['ret'])))
+print("MSE: {}".format(mean_squared_error(data['ret_pred_naive'], data['ret'])))scaler.fit_transform(X_train) X_test = scaler.transform(X_test) 
+  {% endhighlight %}
+
+<h3 style="text-align: justify; line-height: 1.5;">3.2 SGD based Linear Regression </h3>
+<p style="text-align: justify; line-height: 1.5;">Linear Regression is a machine learning algorithm based on supervised learning. SGD stands for Stochastic Gradient Descent: the gradient of the loss is estimated each sample at a time and the model is updated with a decreasing strength schedule (aka learning rate). This model comes in handy when we need to fit a large sample of data with many features. There are two main classes of SGD based model, SGD Classifier and SGD Regressor. This project will use SGD based Linear Regressor to predict stock return. To get better performance, we will find out the best set of parameters for SGD based Linear Regression model, and then use these optimal parameters to build model and make prediction.</p>
+{% highlight ruby %} 
+# SGD Based Model
+param_grid = {
+"alpha": [1e-5, 3e-10, 1e-10],
+"eta0": [1e-5, 3e-10, 5e-13],
+}
+SGD_LR = SGDRegressor(loss='squared_loss', learning_rate='constant', penalty='l2', 
+max_iter=1000)
+grid_search = GridSearchCV(SGD_LR, param_grid, cv=10, scoring='r2')
+grid_search.fit(X_train, y_train)
+print(grid_search.best_params_)
+
+# Best parameters
+SGD_LR_best = grid_search.best_estimator_
+y_pred_LR = SGD_LR_best.predict(X_test)
+print("R2: {}".format(r2_score(y_test, y_pred_LR)))
+print("MAE: {}".format(mean_absolute_error(y_test, y_pred_LR)))
+print("MSE: {}".format(mean_squared_error(y_test, y_pred_LR)))
+  {% endhighlight %}
+
+<h3 style="text-align: justify; line-height: 1.5;">3.3 Random Forest </h3>
+<p style="text-align: justify; line-height: 1.5;">Random Forest algorithm is a supervised machine learning model that is made of various decision trees. It grows multiple decision trees on various sub-samples of the dataset and then pick the average to improve the prediction accuracy and reduce risk of overfitting. This report will build Random Forest Regression Model to predict stock return. We will tune the random forest to choose best parameters for this model</p>
+{% highlight ruby %} 
+# Tuning random forest model
+param_grid ={'max_depth': [40, 60, 80, 90, 100],
+             'max_features': [5, 7, 10],
+                'min_samples_leaf': [3, 5, 7],
+                'min_samples_split': [7, 10]}
+RF = RandomForestRegressor(n_estimators = 250, random_state = 42, n_jobs= -1)
+grid_RF = GridSearchCV(RF, param_grid, cv=5, n_jobs=-1, scoring = 'r2')
+grid_RF.fit(X_train, y_train)
+
+# Best parameters
+print(grid_RF.best_params_)
+RF_best = grid_RF.best_estimator_
+y_pred_RF = RF_best.predict(X_test)
+print("R2: {}".format(r2_score(y_test, y_pred_RF)))
+print("MAE: {}".format(mean_absolute_error(y_test, y_pred_RF)))
+print("MSE: {}".format(mean_squared_error(y_test, y_pred_RF)))
+
+# Random Forest model after tuning
+RF_best = Pipeline([('rf', RandomForestRegressor(n_estimators=250, max_features=5, max_depth= 40, min_samples_split= 7, min_samples_leaf=7))])
+RF_best.fit(X_train,y_train)
+y_pred_RF = RF_best.predict(X_test)
+print("R2: {}".format(r2_score(y_test, y_pred_RF)))
+print("MAE: {}".format(mean_absolute_error(y_test, y_pred_RF)))
+print("MSE: {}".format(mean_squared_error(y_test, y_pred_RF)))
+  {% endhighlight %}
+
+<h3 style="text-align: justify; line-height: 1.5;">3.4 XGBoost </h3>
+<p style="text-align: justify; line-height: 1.5;">XGBoost is an open-source software library, which provides a gradient boosting framework for various applications such as regression, classification, and ranking. It implements machine learning algorithms under the Gradient Boosting framework and is used for supervised learning problems</p>
+{% highlight ruby %} 
+# Tuning the hyperparameters for XGBoost
+param_grid = {
+    'max_depth': [3, 5, 10, 20],
+    'learning_rate': [0.01, 0.03, 0.1],
+    'subsample': [0.4, 0.6, 0.8],
+    'n_estimators': [250,500],
+    'colsample_bytree': [0.5, 0.7, 1.0],
+    'reg_alpha': [0.1, 0.3, 0.5],
+}
+
+xgb = XGBRegressor()
+
+grid_search = GridSearchCV(estimator = xgb, param_grid = param_grid, cv = 3, n_jobs = -1, verbose = 1, scoring='r2')
+grid_search.fit(X_train, y_train)
+
+# Best parameters
+print(grid_search.best_params_)
+
+# XGB model after tuning
+XGB_best = grid_search.best_estimator_
+y_pred_XGB = XGB_best.predict(X_test)
+print("R2: {}".format(r2_score(y_test, y_pred_XGB)))
+print("MAE: {}".format(mean_absolute_error(y_test, y_pred_XGB)))
+print("MSE: {}".format(mean_squared_error(y_test, y_pred_XGB)))
+
+  {% endhighlight %}
+
+<h3 style="text-align: justify; line-height: 1.5;">3.5 KNN </h3>
+<p style="text-align: justify; line-height: 1.5;">KNN (K-Nearest Neighbors) is an algorithm for supervised learning. It is a non-parametric, lazy learning algorithm used for classification and regression. It is a type of instance-based learning or non-generalizing learning: it does not attempt to construct a general internal model, but simply stores instances of the training data. When a prediction is required, the k-nearest training examples are located, and their class labels are aggregated to form a prediction</p>
+{% highlight ruby %} 
+# Tuning the hyperparameters for KNN
+leaf_size = [3,5,7,9]
+n_neighbors = list(range(250,1000, 100))
+p=[1,2]
+hyperparameters = dict(leaf_size=leaf_size, n_neighbors=n_neighbors, p=p)
+knn_2 = KNeighborsRegressor() #Use GridSearch
+clf = GridSearchCV(knn_2, hyperparameters, cv=10) #Fit the model
+best_model = clf.fit(X_train, y_train) # Best Hyperparameters
+knn_model = KNeighborsRegressor(n_neighbors=250, leaf_size=3, p=1).fit(X_train, y_train)
+# knn_prediction
+predict = knn_model.predict(X_test)
+  {% endhighlight %}
+
+    <h3 style="text-align: justify; line-height: 1.5;">3.6 Evaluating Models&rsquo; Performance</h3>
+    <p style="text-align: justify; line-height: 1.5;">After building four machine learning models and making prediction, we will compare performance of these models by generating a comparison table as follows:</p>
+    <table style="border-collapse: collapse;border: none;width: 624px;">
+        <tbody>
+            <tr>
+                <td style="width: 16.4744%; border: 1pt solid windowtext; padding: 0in 5.4pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:center;line-height:150%;'><strong><span style='font-size:16px;line-height:  150%;font-family:"Times New Roman",serif;'>Performance metrics</span></strong></p>
+                </td>
+                <td style="width: 17.3397%; border-top: 1pt solid windowtext; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-image: initial; border-left: none; padding: 0in 5.4pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:center;line-height:150%;'><strong><span style='font-size:16px;line-height:  150%;font-family:"Times New Roman",serif;'>Na&iuml;ve model</span></strong></p>
+                </td>
+                <td style="width: 77.9pt;border-top: 1pt solid windowtext;border-right: 1pt solid windowtext;border-bottom: 1pt solid windowtext;border-image: initial;border-left: none;padding: 0in 5.4pt;vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:center;line-height:150%;'><strong><span style='font-size:16px;line-height:  150%;font-family:"Times New Roman",serif;'>SGD based Linear Regression</span></strong></p>
+                </td>
+                <td style="width: 77.9pt;border-top: 1pt solid windowtext;border-right: 1pt solid windowtext;border-bottom: 1pt solid windowtext;border-image: initial;border-left: none;padding: 0in 5.4pt;vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:center;line-height:150%;'><strong><span style='font-size:16px;line-height:  150%;font-family:"Times New Roman",serif;'>Random Forest</span></strong></p>
+                </td>
+                <td style="width: 77.95pt;border-top: 1pt solid windowtext;border-right: 1pt solid windowtext;border-bottom: 1pt solid windowtext;border-image: initial;border-left: none;padding: 0in 5.4pt;vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:center;line-height:150%;'><strong><span style='font-size:16px;line-height:  150%;font-family:"Times New Roman",serif;'>XGBoost</span></strong></p>
+                </td>
+                <td style="width: 77.95pt;border-top: 1pt solid windowtext;border-right: 1pt solid windowtext;border-bottom: 1pt solid windowtext;border-image: initial;border-left: none;padding: 0in 5.4pt;vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:center;line-height:150%;'><strong><span style='font-size:16px;line-height:  150%;font-family:"Times New Roman",serif;'>KNN</span></strong></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 16.4744%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><strong><span style='font-size:16px;line-height:150%;font-family:"Times New Roman",serif;'>R2</span></strong></p>
+                </td>
+                <td style="width: 17.3397%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; vertical-align: bottom;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:16px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>-0.464</span></p>
+                </td>
+                <td style="width: 77.9pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: bottom;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:16px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>0.528</span></p>
+                </td>
+                <td style="width: 77.9pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: bottom;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:16px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>-0.352</span></p>
+                </td>
+                <td style="width: 77.95pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:16px;line-height:150%;font-family:"Times New Roman",serif;'>0.547</span></p>
+                </td>
+                <td style="width: 77.95pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:16px;line-height:150%;font-family:"Times New Roman",serif;'>0.533</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 16.4744%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><strong><span style='font-size:16px;line-height:150%;font-family:"Times New Roman",serif;'>MAE</span></strong></p>
+                </td>
+                <td style="width: 17.3397%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; vertical-align: bottom;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:16px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>0.145</span></p>
+                </td>
+                <td style="width: 77.9pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: bottom;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:16px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>0.092</span></p>
+                </td>
+                <td style="width: 77.9pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: bottom;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:16px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>0.099</span></p>
+                </td>
+                <td style="width: 77.95pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:16px;line-height:150%;font-family:"Times New Roman",serif;'>0.091</span></p>
+                </td>
+                <td style="width: 77.95pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:16px;line-height:150%;font-family:"Times New Roman",serif;'>0.109</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 16.4744%; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt; vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><strong><span style='font-size:16px;line-height:150%;font-family:"Times New Roman",serif;'>MSE</span></strong></p>
+                </td>
+                <td style="width: 17.3397%; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt; vertical-align: bottom;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:16px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>0.040</span></p>
+                </td>
+                <td style="width: 77.9pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: bottom;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:16px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>0.021</span></p>
+                </td>
+                <td style="width: 77.9pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: bottom;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:16px;line-height:150%;font-family:"Times New Roman",serif;color:black;'>0.019</span></p>
+                </td>
+                <td style="width: 77.95pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:16px;line-height:150%;font-family:"Times New Roman",serif;'>0.018</span></p>
+                </td>
+                <td style="width: 77.95pt;border-top: none;border-left: none;border-bottom: 1pt solid windowtext;border-right: 1pt solid windowtext;padding: 0in 5.4pt;vertical-align: top;">
+                    <p style='margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:0in;font-size:11.0pt;font-family:"Calibri",sans-serif;text-align:justify;line-height:150%;'><span style='font-size:16px;line-height:150%;font-family:"Times New Roman",serif;'>0.173</span></p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p style="text-align: justify; line-height: 1.5;">According to table above, our machine learning models clearly have better performance than Na&iuml;ve models. XGBoost emerges as the best-performing model overall, consistently showing the highest R2 and lowest MAE and MSE. SGD based Linear Regression and KNN also demonstrate strong predictive capabilities. In contrast, the Na&iuml;ve model and Random Forest still exhibit poor performance, with negative R2 scores indicating they are not suitable for prediction in this context. The significant improvement in R2 for XGBoost, KNN, and SGD suggests that these models can effectively capturing meaningful patterns in the data, making them potentially viable for their intended purpose.&nbsp;</p>
+  <h2 style="text-align: justify; line-height: 1.5;">IV. Conclusion and Recommendation</h2>
+    <p style="text-align: justify; line-height: 1.5;"> Our models demonstrate a reasonable ability to predict stock returns, with XGBoost, KNN, and SGD Linear Regression explaining over 50% of the variance (R2 above 0.50), significantly outperforming a random guess. While promising, substantial improvements are needed to achieve highly reliable predictions for active investment strategies.</p>
+    <h3 style="text-align: justify; line-height: 1.5;"> Recommendations</h3>
+    <p style="text-align: justify; line-height: 1.5;"> To further enhance the predictive power of our models and develop a more sophisticated investment strategy, we propose the following recommendations:</p>
+    <p style="text-align: justify; line-height: 1.5;"> - Refine Features: Implement rigorous feature selection and engineering (e.g., transformations, interaction terms) to identify and optimize the most impactful variables.</p>
+    <p style="text-align: justify; line-height: 1.5;"> - Advance Factor Models: Investigate the Fama-French 5-Factor model to better align with financial theory and potentially improve predictive power, especially given observed size factor deviations.</p>
+    <p style="text-align: justify; line-height: 1.5;"> - Improve Data Handling: Implement sophisticated missing data imputation methods instead of simple deletion to preserve information and enhance data quality.</p>
+    <p style="text-align: justify; line-height: 1.5;"> - Explore Advanced Algorithms: Investigate deep learning and integrate additional macroeconomic factors to capture more complex predictive patterns.</p>
+
+<p style="text-align: justify; line-height: 1.5;"><br></p>

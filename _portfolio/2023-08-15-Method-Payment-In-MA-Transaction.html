@@ -1,0 +1,88 @@
+---
+layout: post
+title: "Payment Methods in M&A transactions"
+subtitle: "Do certain mergers destroy value for bidder shareholders?"
+date: 2023-08-15 23:45:13 -0400
+category: "Data Analytics"
+tags: ["Data Analytics", "R", "Data Visualization"]
+background: '/img/portfolio/M&A Transaction/MA.jpg'
+excerpt_separator: <!--more-->
+---
+
+ <p style="text-align: justify; line-height: 1.5;">Corporate takeovers stand as one of the most significant financial endeavors that a firm can embark upon, wielding the potential to reshape the business landscape and redefine its strategic trajectory. These transactions not only hold substantial importance at the firm level but also wield considerable influence at the broader economic spectrum, driving capital reallocation across companies. In 2022 alone, a staggering 49,058 Mergers and Acquisitions (M&amp;A) deals transpired worldwide, with a cumulative value of approximately $3.15 trillion, equivalent to approximately 3% of the world&apos;s Gross Domestic Product (GDP). This statistic underscores the profound impact of M&amp;A activities on the global economy.&nbsp;</p>
+<!--more-->
+    <p style="text-align: justify; line-height: 1.5;">The central focus of our work in this assignment revolves around the examination of the effect of takeovers on the wealth of bidder shareholders, with a specific emphasis on discerning the significance of the method of payment&mdash;whether in stock or cash. Furthermore, we aim to investigate whether this effect varies when considering public and private targets, elucidating the nuanced dynamics at play in different market contexts.</p>
+    <p style="text-align: justify; line-height: 1.5;">The dataset - CAR_M&amp;A.Rdata - forms the foundation of our empirical analysis in this thesis. Comprising a comprehensive collection of 5,154 M&amp;A deals spanning the extensive timeframe from 1990 to 2014, it serves as a rich source of real-world data upon which our research is founded. Importantly, this dataset has been explicitly curated to include only those M&amp;A transactions that meet specific criteria commonly employed in the M&amp;A literature. By adhering to these well-established criteria, we ensure the integrity and relevance of our analysis. This rigorous selection process enhances the dataset&apos;s representativeness and enables us to draw meaningful conclusions regarding the wealth implications of corporate takeovers. The use of such a filtered dataset ensures that the findings and insights generated from our research hold broader applicability and are reflective of the dynamics commonly observed in the field of M&amp;A.&nbsp;</p>
+    <p style="text-align: justify; line-height: 1.5;">To delve deeper into this subject, we&apos;ve embarked on a comprehensive data analysis journey. We began with Data Familiarization, meticulously examining the dataset&apos;s structure, characteristics, and identifying any outliers, which we then addressed using Winsorization to ensure they don&apos;t skew our findings. This foundational step paved the way for Descriptive Analysis, where we generated two key tables: the first offering annual insights into deal numbers, average sizes, and proportions of private targets or all-stock payments, and the second detailing the distribution, mean, standard deviation, and percentiles of variables critical for our regression analysis.</p>
+    
+<!-- Add image and video here -->
+<!-- <a href="{{ site.baseurl }}/img/portfolio/XMas Sales 02.jpg" data-lightbox="portfolio" data-title="Overview of Christmas Sales">
+  <img class="img-fluid w-75" src="{{ site.baseurl }}/img/portfolio/XMas Sales 02.jpg" alt="Xmas Sales" style="display: block; margin: 0 auto; cursor: zoom-in;">
+</a>
+<span class="caption text-muted">Overview of Christmas Sales</span>   -->
+<!-- Lightbox2 CSS and JS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+
+<style>
+  /* Increase size and add a background with some opacity */
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 60px;
+    height: 60px;
+    background-size: 35px 35px; /* Adjust the icon size inside the control */
+    background-color: rgba(0, 0, 0, 0.6); /* Slightly darker for better visibility */
+    border-radius: 50%;
+    filter: invert(100%); /* Makes the arrow white for better contrast */
+  }
+
+  /* Optionally, add a hover effect */
+  .carousel-control-prev:hover .carousel-control-prev-icon,
+  .carousel-control-next:hover .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  /* Ensure the images are well-fitted inside the carousel */
+  .carousel-item img {
+    max-height: 500px; /* Adjust as needed */
+    object-fit: cover;
+  }
+</style>
+
+<div id="imageCarousel" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <a href="{{ site.baseurl }}/img/portfolio/M&A Transaction/Plot1.jpg" data-lightbox="carousel-gallery" data-title="XMas Sales Overview">
+        <img class="d-block w-100" src="{{ site.baseurl }}/img/portfolio/M&A Transaction/Plot1.jpg" alt="Image 1">
+      </a>
+    </div>
+    <div class="carousel-item">
+      <a href="{{ site.baseurl }}/img/portfolio/M&A Transaction/Plot2.jpg" data-lightbox="carousel-gallery" data-title="XMas Sales Trends">
+        <img class="d-block w-100" src="{{ site.baseurl }}/img/portfolio/M&A Transaction/Plot2.jpg" alt="Image 2">
+      </a>
+    </div>
+    <!-- Add more carousel items as needed -->
+  </div>
+
+  <!-- Carousel Controls -->
+  <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+ 
+<!-- <video width="800" height="450" controls>
+    <source src="{{ site.baseurl }}/img/portfolio/Xmas Sales.mp4" type="video/mp4">
+  </video>  -->
+
+    <p style="text-align: justify; line-height: 1.5;">The core of our investigation lies in Regression Analysis, where we constructed two detailed tables. Regression Table 1 explores the relationship between the bidder&apos;s cumulative abnormal returns (bidder.car) and the deal structure (deal.allstock), segmented by the target&apos;s nature (public or private). Building on this, Regression Table 2 introduces additional control variables and interactions to uncover more nuanced insights into the data. Following these analyses, we will interpret our descriptive and regression findings, justify our choice of control variables, and delve into the statistical and economic implications, ensuring a holistic understanding of the data by addressing critical questions that emerge from our results.</p>
+    <p style="text-align: justify; line-height: 1.5;">In conclusion, our approach is designed to be methodical and comprehensive. By the end of this analysis, we aim to provide a clear picture of the dynamics of corporate takeovers and the factors that influence bidder returns. Through this endeavor, we hope to contribute valuable insights to the existing body of knowledge, drawing inspiration from esteemed works, such as those by Betton et al., Golubov et al., Moeller et al., and Officer et al.</p>
+
+<p>Link to my detailed report:</p>
+<a href="pdf/Methods of Payment in M&A transactions.pdf" target="_blank">Methods of Payment in M&A transactions.pdf</a>
+
+  
